@@ -131,7 +131,10 @@ const DoctorProfile = () => {
           name="keywords"
           content="Doctors, Professional Doctors, Specialist"
         />
-        <link rel="canonical" href="https://nirogsathi.com/digital-doctors" />
+        <link
+          rel="canonical"
+          href="https://Gy Appointments.com/digital-doctors"
+        />
       </Helmet>
 
       <Header />

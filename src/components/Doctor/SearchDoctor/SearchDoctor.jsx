@@ -189,16 +189,16 @@ const SearchDoctor = () => {
       <div>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Search Top Doctors | Nirog Sathi</title>
+          <title>Search Top Doctors | Gy Appointments</title>
           <meta
             name="description"
-            content="Discover and book appointments with the best doctors. Find professional specialists for your healthcare needs at Nirog Sathi."
+            content="Discover and book appointments with the best doctors. Find professional specialists for your healthcare needs at Gy Appointments."
           />
           <meta
             name="keywords"
-            content="Top doctors, Professional doctors, Specialist doctors, Book appointments, Healthcare specialists, Nirog Sathi"
+            content="Top doctors, Professional doctors, Specialist doctors, Book appointments, Healthcare specialists, Gy Appointments"
           />
-          <link rel="canonical" href="https://nirogsathi.com/doctors" />
+          <link rel="canonical" href="https://Gy Appointments.com/doctors" />
         </Helmet>
 
         <Header />

@@ -16,15 +16,15 @@ const DoctorHome = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>
-          NirogSathi for Doctors: Streamline Your Practice & Reach Millions
+          Gy Appointments for Doctors: Streamline Your Practice & Reach Millions
         </title>
         <meta
           name="description"
-          content="Transform your practice with Nirog Sathi. Manage efficiently, connect with peers, and reach millions of patients online and offline. Discover healthcare's future today."
+          content="Transform your practice with Gy Appointments. Manage efficiently, connect with peers, and reach millions of patients online and offline. Discover healthcare's future today."
         />
         <meta
           name="keywords"
-          content="Practice management for doctors, Healthcare professional network, Patient-doctor connection, Register as a doctor, Reach patients online, Healthcare solutions for doctors, Nirog Sathi registration, Reach patients online"
+          content="Practice management for doctors, Healthcare professional network, Patient-doctor connection, Register as a doctor, Reach patients online, Healthcare solutions for doctors, Gy Appointments registration, Reach patients online"
         />
         <link rel="canonical" href="https://nirogsathi.com/digital-doctors" />
       </Helmet>

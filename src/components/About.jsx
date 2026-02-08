@@ -112,22 +112,22 @@ const About = () => {
   return (
     <>
       <Helmet>
-        <title>About NirogSathi: Your Trusted Healthcare Partner</title>
+        <title>About Gy Appointments: Your Trusted Healthcare Partner</title>
         <meta
           name="description"
-          content="Discover the journey, future goals, and key features of NirogSathi - your trusted platform for doctor appointments and healthcare solutions."
+          content="Discover the journey, future goals, and key features of Gy Appointments - your trusted platform for doctor appointments and healthcare solutions."
         />
         <meta
           name="keywords"
-          content="About Nirog Sathi, Nirog Sathi journey, Nirog Sathi future goals, Nirog Sathi features, Doctor appointment platform, Healthcare solutions"
+          content="About Gy Appointments, Gy Appointments journey, Gy Appointments future goals, Gy Appointments features, Doctor appointment platform, Healthcare solutions"
         />
-        <link rel="canonical" href="https://nirogsathi.com/about" />
+        <link rel="canonical" href="https://Gy Appointments.com/about" />
       </Helmet>
 
       <Header />
       <SubHeader
         title="about us"
-        subtitle="Explore the Nirog Sathi team and our mission."
+        subtitle="Explore the Gy Appointments team and our mission."
       />
 
       <AboutUs />

@@ -22,7 +22,7 @@ const SignUp = ({ handleSignInMobileClick, setSignUp }) => {
     password: "",
   };
   const [user, setUser] = useState(formField);
-  const [userType, setUserType] = useState("patient");
+  const [userType, setUserType] = useState("Patient");
   const [
     doctorSignUp,
     {
@@ -74,7 +74,7 @@ const SignUp = ({ handleSignInMobileClick, setSignUp }) => {
 
     // Patient account
     if (pIsError && pError) {
-      message.error("Email Already Exist !!");
+      message.error("Email Already Existssssss");
       setLoading(false);
     }
     if (!pIsError && pIsSuccess) {

@@ -33,10 +33,10 @@ const DoctorForm = () => {
   return (
     <section id="doctor-form" style={{ marginTop: 80 }} className="container">
       <div className="mb-4 section-title text-center">
-        <h2>Join the NirogSathi Doctor Network</h2>
+        <h2>Join the Gy Appointments Doctor Network</h2>
         <p style={{ color: "var(--textLight)" }}>
-          Be a part of a revolution in digital healthcare. Join NirogSathi today
-          and enhance your practice!
+          Be a part of a revolution in digital healthcare. Join Gy Appointments
+          today and enhance your practice!
         </p>
       </div>
 

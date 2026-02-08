@@ -12,8 +12,7 @@ const HowToUse = () => {
   const [customerSupportData] = useState(customerSupportAPI);
   const { role } = useAuthCheck();
 
-    const navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   return (
     <>
@@ -29,7 +28,7 @@ const HowToUse = () => {
           <div className="container mb-5">
             <div className="row">
               <div className="col-12 col-lg-4 text-center">
-                <img src={HowToUseImage} alt="How To Use Nirog Sathi" />
+                <img src={HowToUseImage} alt="How To Use Gy Appointments" />
               </div>
 
               <div className="col-12 col-lg-8 our-services-list">

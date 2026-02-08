@@ -48,13 +48,13 @@ const DoctorHeroSection = () => {
           <div className="row" style={{ marginTop: 50 }}>
             <div className="col-12 col-lg-6 doctor-header-left-side order-lg-first order-last">
               <h1 className="nirog-sathi">
-                Become a Digital Doctor with NirogSathi
+                Become a Digital Doctor with GY Appointments
               </h1>
 
               <p className="main-header-para">
-                Experience the benefits of digital healthcare with NirogSathi,
-                from improved patient engagement to efficient practice
-                management and enhanced care delivery.
+                Experience the benefits of digital healthcare with GY
+                Appointments, from improved patient engagement to efficient
+                practice management and enhanced care delivery.
               </p>
 
               <div>

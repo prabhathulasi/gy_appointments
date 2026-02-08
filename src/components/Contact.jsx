@@ -12,10 +12,8 @@ import ContactPageHeader from "./ContactPageHeader";
 import { Helmet } from "react-helmet-async";
 
 const Contact = () => {
-  const [
-    contact,
-    { isLoading, isError, error, isSuccess },
-  ] = useContactMutation();
+  const [contact, { isLoading, isError, error, isSuccess }] =
+    useContactMutation();
   const { register, handleSubmit, reset } = useForm({});
   const onSubmit = (data) => {
     contact(data);
@@ -36,13 +34,13 @@ const Contact = () => {
         <title>Contact Us: Get in Touch with Us</title>
         <meta
           name="description"
-          content="Reach out to Nirog Sathi for any inquiries, support, or feedback. Connect with us to learn more about our healthcare services and solutions."
+          content="Reach out to Gy Appointments for any inquiries, support, or feedback. Connect with us to learn more about our healthcare services and solutions."
         />
         <meta
           name="keywords"
-          content="Contact Nirog Sathi, Nirog Sathi support, Get in touch with Nirog Sathi, Nirog Sathi inquiries, Healthcare services contact"
+          content="Contact Gy Appointments, Gy Appointments support, Get in touch with Gy Appointments, Gy Appointments inquiries, Healthcare services contact"
         />
-        <link rel="canonical" href="https://nirogsathi.com/contact" />
+        <link rel="canonical" href="https://Gy Appointments.com/contact" />
       </Helmet>
 
       <Header />

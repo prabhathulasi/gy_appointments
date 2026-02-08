@@ -112,7 +112,7 @@ const Blog = () => {
                     }}
                   />
                 </div>
-                
+
                 <div className="card-body p-0">
                   <div className="p-2">
                     <div
@@ -168,16 +168,16 @@ const Blog = () => {
   return (
     <>
       <Helmet>
-        <title>Nirog Sathi Blog: Healthcare Tips, News & Insights</title>
+        <title>Gy Appointments Blog: Healthcare Tips, News & Insights</title>
         <meta
           name="description"
-          content="Stay updated with the latest healthcare tips, news, and insights from Nirog Sathi. Explore our blog for expert advice and information."
+          content="Stay updated with the latest healthcare tips, news, and insights from Gy Appointments. Explore our blog for expert advice and information."
         />
         <meta
           name="keywords"
-          content="Nirog Sathi blog, Healthcare tips, Healthcare news, Medical insights, Expert healthcare advice, Nirog Sathi articles"
+          content="Gy Appointments blog, Healthcare tips, Healthcare news, Medical insights, Expert healthcare advice, Gy Appointments articles"
         />
-        <link rel="canonical" href="https://nirogsathi.com/blog" />
+        <link rel="canonical" href="https://Gy Appointments.com/blog" />
       </Helmet>
 
       <Header />

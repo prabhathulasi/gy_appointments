@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { aboutDocApointData, whyToChooseDocApoint } from "../../apis/aboutDataAPI";
+import {
+  aboutDocApointData,
+  whyToChooseDocApoint,
+} from "../../apis/aboutDataAPI";
 import "../../stylesheets/aboutStylesheets/AboutUs.css";
 
 const AboutUs = () => {
@@ -15,11 +18,14 @@ const AboutUs = () => {
               <div className="row">
                 <div className="about-text text-section pad-15">
                   <h3>
-                    Welcome to <span>Nirog Sathi</span>, your trusted healthcare
-                    companion
+                    Welcome to <span>Gy Appointments</span>, your trusted
+                    healthcare companion
                   </h3>
                   <p>
-                    Our mission is to make quality healthcare affordable and accessible. We believe in providing valuable healthcare information and easy-to-use solutions, ensuring everyone can access quality healthcare.
+                    Our mission is to make quality healthcare affordable and
+                    accessible. We believe in providing valuable healthcare
+                    information and easy-to-use solutions, ensuring everyone can
+                    access quality healthcare.
                   </p>
                 </div>
               </div>
@@ -27,7 +33,7 @@ const AboutUs = () => {
               <div className="row">
                 {/* First Card */}
                 <div className="about-card pad-15">
-                  <h3 className="title">About Nirog Sathi</h3>
+                  <h3 className="title">About Gy Appointments</h3>
                   <div className="row">
                     <div className="timeline-box pad-15">
                       <div className="timeline">

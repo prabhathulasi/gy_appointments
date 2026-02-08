@@ -148,7 +148,7 @@ const BlogDetails = () => {
   return (
     <>
       <Helmet>
-        <title>{data?.title || "Nirog Sathi Blog"}</title>
+        <title>{data?.title || "Gy Appointments Blog"}</title>
         <meta
           name="description"
           content={
@@ -158,9 +158,9 @@ const BlogDetails = () => {
         />
         <meta
           name="keywords"
-          content="Nirog Sathi blog, Healthcare tips, Healthcare news, Medical insights, Expert healthcare advice, Nirog Sathi articles"
+          content="Gy Appointments blog, Healthcare tips, Healthcare news, Medical insights, Expert healthcare advice, Gy Appointments articles"
         />
-        <link rel="canonical" href="https://nirogsathi.com/blog" />
+        <link rel="canonical" href="https://Gy Appointments.com/blog" />
       </Helmet>
 
       <Header />

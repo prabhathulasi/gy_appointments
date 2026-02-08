@@ -13,7 +13,7 @@ const ContactPageHeader = () => {
                 <i class="fa fa-phone"></i>
               </div>
               <h4>Helpline Number</h4>
-              <p>+91 9302765839</p>
+              <p>+592 611 4775</p>
             </div>
 
             {/* <!-- Contact Info item --> */}
@@ -22,7 +22,11 @@ const ContactPageHeader = () => {
                 <i class="fa fa-map"></i>
               </div>
               <h4>Address</h4>
-              <p>Bhopal, 102030, MP, India</p>
+              <p>
+                {" "}
+                Lot 54 Felicity, Happy Acres, East Coast Demerara, Georgetown,
+                Guyana.
+              </p>
             </div>
 
             {/* <!-- Contact Info item --> */}
@@ -31,7 +35,7 @@ const ContactPageHeader = () => {
                 <i class="fa fa-envelope"></i>
               </div>
               <h4>Email</h4>
-              <p>support.nirogsathi@gmail.com</p>
+              <p>info@lemuria.gy</p>
             </div>
           </div>
         </div>

@@ -2,8 +2,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
 
 :root {
-  --primaryColor: #ec1839;
-  --primaryHoverColor: #b9122c;
+  --primaryColor: #2b0057;
+  --primaryHoverColor: #b163ff;
   /* --secondaryColor: #ec98a5; */
   --secondaryColor: #ffdbdb;
   --bgColor: #fdf9ff;
@@ -33,7 +33,7 @@
 }
 
 .ant-btn-primary {
-  background: #ec1839 !important;
+  background: #2b0057 !important;
   color: #fff !important;
   transition: all 0.5s ease !important;
   border: none !important;
@@ -41,7 +41,7 @@
 }
 
 .ant-btn-primary:hover {
-  background: #b9122c !important ;
+  background: #2b0057 !important ;
 }
 
 /* Edit Scrollbar */
@@ -143,7 +143,7 @@ textarea.text-form-input-field {
 
 .button:hover {
   color: white;
-  background: #b9122c;
+  background: #2b0057;
 }
 
 .copyBtn {

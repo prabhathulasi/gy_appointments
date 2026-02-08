@@ -63,11 +63,11 @@ function App() {
         <Helmet>
           <meta charSet="utf-8" />
           <title>
-            Nirog Sathi: Video Consultations, Book Appointments & More
+            Gy Appointments: Video Consultations, Book Appointments & More
           </title>
           <meta
             name="title"
-            content="Nirog Sathi: Video Consultations, Book Appointments & More"
+            content="Gy Appointments: Video Consultations, Book Appointments & More"
           />
           <meta
             name="description"
@@ -75,9 +75,9 @@ function App() {
           />
           <meta
             name="keywords"
-            content="Book doctor appointments, Digital health records, Online doctor consultations, Healthcare platform, Nirog Sathi healthcare, Connect with top doctors, Digital Health Solutions"
+            content="Book doctor appointments, Digital health records, Online doctor consultations, Healthcare platform, Gy Appointments healthcare, Connect with top doctors, Digital Health Solutions"
           />
-          <link rel="canonical" href="https://nirogsathi.com/" />
+          <link rel="canonical" href="https://Gy Appointments.com/" />
         </Helmet>
 
         <Routes>

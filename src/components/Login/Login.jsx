@@ -49,17 +49,17 @@ const Login = () => {
     <>
       <Helmet>
         <title>
-          Login or Register at Nirog Sathi: Access Healthcare Services
+          Login or Register at Gy Appointments: Access Healthcare Services
         </title>
         <meta
           name="description"
-          content="Access your Nirog Sathi account to book doctor appointments, consult online, and manage your health records. Register or login now to start your healthcare journey."
+          content="Access your Gy Appointments account to book doctor appointments, consult online, and manage your health records. Register or login now to start your healthcare journey."
         />
         <meta
           name="keywords"
-          content="Nirog Sathi login, Nirog Sathi registration, Healthcare platform access, Book appointments, Digital health records, Connect with doctors, Secure login, Create Account"
+          content="Gy Appointments login, Gy Appointments registration, Healthcare platform access, Book appointments, Digital health records, Connect with doctors, Secure login, Create Account"
         />
-        <link rel="canonical" href="https://nirogsathi.com/login" />
+        <link rel="canonical" href="https://Gy Appointments.com/login" />
       </Helmet>
 
       <Header />

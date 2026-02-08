@@ -17,7 +17,7 @@ const Footer = () => {
                 {/* First Column */}
                 {role === "patient" ? (
                   <div className="col-6 col-lg-3">
-                    <h2>Nirog Sathi</h2>
+                    <h2>GY Appointments</h2>
                     <ul>
                       <li>
                         <NavLink to="/">
@@ -53,7 +53,7 @@ const Footer = () => {
                   </div>
                 ) : role === "doctor" ? (
                   <div className="col-6 col-lg-3">
-                    <h2>Nirog Sathi</h2>
+                    <h2>GY Appointments</h2>
                     <ul>
                       <li>
                         <NavLink to="/">
@@ -84,7 +84,7 @@ const Footer = () => {
                   </div>
                 ) : role === "admin" ? (
                   <div className="col-6 col-lg-3">
-                    <h2>Nirog Sathi</h2>
+                    <h2>GY Appointment</h2>
                     <ul>
                       <li>
                         <NavLink to="/">
@@ -115,7 +115,7 @@ const Footer = () => {
                   </div>
                 ) : (
                   <div className="col-6 col-lg-3">
-                    <h2>Nirog Sathi</h2>
+                    <h2>GY Appointments</h2>
                     <ul>
                       <li>
                         <NavLink to="/">
@@ -289,18 +289,18 @@ const Footer = () => {
                         <span className="contact-icon">
                           <i class="fa-solid fa-phone"></i>
                         </span>{" "}
-                        +91 12345 54321
+                        +592 611 4775
                       </NavLink>
                     </li>
                     <li>
                       <NavLink
-                        to="mailto:nirogsathi@gmail.com"
+                        to="mailto:Gy Appointments@gmail.com"
                         className="contact-link"
                       >
                         <span className="contact-icon">
                           <i class="fa-solid fa-envelope"></i>
                         </span>{" "}
-                        nirogsathi@gmail.com
+                        info@lemuria.gy
                       </NavLink>
                     </li>
                     <li>
@@ -308,7 +308,8 @@ const Footer = () => {
                         <span className="contact-icon">
                           <i class="fa-solid fa-location-dot"></i>
                         </span>{" "}
-                        Address, City, Pin
+                        Lot 54 Felicity, Happy Acres, East Coast Demerara,
+                        Georgetown, Guyana.
                       </NavLink>
                     </li>
                   </ul>
@@ -358,7 +359,7 @@ const Footer = () => {
 
               <div className="mt-4 flexRowSpaceBetween mb-3">
                 <p className="copyright">
-                  © Copyright Nirog Sathi-2024. All rights reserved.
+                  © Copyright Lemuria-2025. All rights reserved.
                 </p>
 
                 <div className="policy">

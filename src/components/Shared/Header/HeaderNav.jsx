@@ -137,7 +137,7 @@ const HeaderNav = ({ open, setOpen, isLoggedIn, data, avatar, content }) => {
               Contact
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
               to={"/blog"}
               className={({ isActive }) =>
@@ -146,7 +146,7 @@ const HeaderNav = ({ open, setOpen, isLoggedIn, data, avatar, content }) => {
             >
               Blog
             </NavLink>
-          </li>
+          </li> */}
 
           {!isLoggedIn && (
             <li>

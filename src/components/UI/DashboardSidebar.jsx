@@ -93,9 +93,9 @@ const DashboardSidebar = () => {
     setQrVisible(false);
   };
 
-  const qrCodeUrl = `https://nirogsathi.com/doctors/profile/${data?.id}`;
+  const qrCodeUrl = `https://Gy Appointments.com/doctors/profile/${data?.id}`;
   const logoUrl =
-    "https://nirogsathi.com/static/media/logo.f1d70abe2aa2223b773e.png";
+    "https://Gy Appointments.com/static/media/logo.f1d70abe2aa2223b773e.png";
 
   return (
     <div className="profile-sidebar p-3 rounded">

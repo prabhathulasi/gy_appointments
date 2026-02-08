@@ -3,13 +3,13 @@ const aboutDocApointData = [
     id: 1,
     title: "Our Story",
     description:
-      "Nirog Sathi was born out of a simple idea: to connect patients with the healthcare they need, quickly and efficiently. We understand the frustration of long wait times, confusing appointment processes, and the difficulty of finding the right specialist. That's why we set out to create a platform that puts patients and doctors in control, providing a seamless and secure way to access healthcare.",
+      "Gy Appointments was born out of a simple idea: to connect patients with the healthcare they need, quickly and efficiently. We understand the frustration of long wait times, confusing appointment processes, and the difficulty of finding the right specialist. That's why we set out to create a platform that puts patients and doctors in control, providing a seamless and secure way to access healthcare.",
   },
   {
     id: 2,
     title: "Our Commitment",
     description:
-      "At Nirog Sathi, we are committed to offering you the best in healthcare services. Our platform is designed with your convenience and well-being in mind. We believe that every patient deserves prompt and easy access to medical expertise. Whether you're looking for a trusted family physician, a specialist in a particular field, or seeking the convenience of telemedicine, we're here to serve your healthcare needs.",
+      "At Gy Appointments, we are committed to offering you the best in healthcare services. Our platform is designed with your convenience and well-being in mind. We believe that every patient deserves prompt and easy access to medical expertise. Whether you're looking for a trusted family physician, a specialist in a particular field, or seeking the convenience of telemedicine, we're here to serve your healthcare needs.",
   },
   {
     id: 3,

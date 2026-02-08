@@ -29,6 +29,10 @@ const Specialization = ({ category, setCategory }) => {
             slidesPerView={3}
             modules={[Navigation, Autoplay]}
             loop={true}
+            autoplay={{
+              delay: 500,
+              disableOnInteraction: false,
+            }}
             breakpoints={{
               280: {
                 slidesPerView: 2,

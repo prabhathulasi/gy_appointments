@@ -15,60 +15,47 @@ const AdminDashboard = () => {
   const [patientCount, setPatientCount] = useState(0);
   const [appointmentCount, setAppointmentCount] = useState(0);
   const [revenueCount, setRevenueCount] = useState(0);
-  
 
   const fetchCounts = async () => {
     try {
       // Fetch doctor count
-      const doctorResponse = await fetch(
-        `${getBaseUrl()}/doctor/`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: authorizationToken,
-          },
-        }
-      );
+      const doctorResponse = await fetch(`${getBaseUrl()}/doctor/`, {
+        method: "GET",
+        headers: {
+          Authorization: authorizationToken,
+        },
+      });
       const doctorData = await doctorResponse.json();
       setDoctorCount(doctorData.data.data.length);
 
       // Fetch patient count
-      const patientResponse = await fetch(
-        `${getBaseUrl()}/patient`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: authorizationToken,
-          },
-        }
-      );
+      const patientResponse = await fetch(`${getBaseUrl()}/patient`, {
+        method: "GET",
+        headers: {
+          Authorization: authorizationToken,
+        },
+      });
       const patientData = await patientResponse.json();
       setPatientCount(patientData.data.length);
 
       // Fetch appointment count
-      const appointmentResponse = await fetch(
-        `${getBaseUrl()}/appointment`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: authorizationToken,
-          },
-        }
-      );
+      const appointmentResponse = await fetch(`${getBaseUrl()}/appointment`, {
+        method: "GET",
+        headers: {
+          Authorization: authorizationToken,
+        },
+      });
       const appointmentData = await appointmentResponse.json();
       setAppointmentCount(appointmentData.data.length);
 
       // Fetch revenue count
       //(total revenue from all appointments currently not working due to no payment table in the database)
-      const revenueResponse = await fetch(
-        `${getBaseUrl()}/revenue`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: authorizationToken,
-          },
-        }
-      );
+      const revenueResponse = await fetch(`${getBaseUrl()}/revenue`, {
+        method: "GET",
+        headers: {
+          Authorization: authorizationToken,
+        },
+      });
       const revenueData = await revenueResponse.json();
       setRevenueCount(revenueData.totalRevenue);
     } catch (error) {
@@ -93,11 +80,11 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-     ReactGA.send({
-       hitType: "pageview",
-       page: "/",
-       title: "Deshboard Page Visit",
-     });
+    ReactGA.send({
+      hitType: "pageview",
+      page: "/",
+      title: "Deshboard Page Visit",
+    });
     fetchAppointments();
     fetchCounts();
   }, []);
@@ -175,8 +162,7 @@ const AdminDashboard = () => {
               </span>
 
               <h3 className="info-count" style={{ fontSize: "1.5rem" }}>
-                {/* Rs. {revenueCount} */}
-                Rs. 11996
+                Rs. {revenueCount}
               </h3>
 
               <p className="info-label">Total Revenue</p>

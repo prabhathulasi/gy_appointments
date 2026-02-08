@@ -15,6 +15,11 @@ type ILginResponse = {
     user: {}
 }
 
+type IRegisterResponse = {
+    message: string;
+    
+}
+
 const loginUser = async (user: any): Promise<ILginResponse> => {
     const { email: IEmail, password } = user;
     const isUserExist = await prisma.auth.findUnique({
@@ -178,5 +183,5 @@ export const AuthService = {
     loginUser,
     VerificationUser,
     resetPassword,
-    PassworResetConfirm
+    PassworResetConfirm,
 }

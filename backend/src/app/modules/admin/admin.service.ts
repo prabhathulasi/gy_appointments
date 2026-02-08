@@ -12,6 +12,10 @@ import { CloudinaryHelper } from "../../../helpers/uploadHelper";
 const create = async (payload: any): Promise<any> => {
     const data = await prisma.$transaction(async (tx) => {
         const { password, ...othersData } = payload;
+        console.log("Received payload:", payload);
+        if (!othersData.email) {
+  throw new Error("Email is required");
+}
         const existEmail = await tx.auth.findUnique({ where: { email: othersData.email } });
         if (existEmail) {
             throw new Error("Email Already Exist !!")

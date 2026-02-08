@@ -8,8 +8,13 @@ import config from './config';
 
 const app: Application = express();
 
-app.use(cors());
+
 app.use(CookieParser());
+app.use(cors({
+  origin: ['http://localhost:5001',"*"], // Allow all origins. Replace with specific origin(s) in production.
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -26,6 +31,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api/v1', router);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    console.error("🔥 Unhandled Error:", err); // <== Log the actual error
     if (err instanceof ApiError) {
         res.status(err.statusCode).json({ success: false, message: err.message })
     } else {

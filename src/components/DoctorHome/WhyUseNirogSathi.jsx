@@ -6,9 +6,11 @@ const WhyUseNirogSathi = () => {
     <>
       <section className="announcements">
         <div className="section-title text-center">
-          <h2>Top reasons to use Nirog Sathi</h2>
+          <h2>Top reasons to use Gy Appointments</h2>
           <p style={{ color: "var(--textLight)" }}>
-            There are so many reasons to prefer Nirog Sathi
+            There are so many reasons to prefer Gy Appointments for your digital
+            healthcare needs. Here are some of the top reasons why you should
+            consider using our platform:
           </p>
         </div>
 

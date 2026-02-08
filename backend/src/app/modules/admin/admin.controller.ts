@@ -35,6 +35,7 @@ const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
 })
 
 const updateAdmin = catchAsync(async (req: Request, res: Response) => {
+     try {
     const result = await AdminService.updateAdmin(req);
     sendResponse<Admin>(res, {
         statusCode: 200,
@@ -42,6 +43,14 @@ const updateAdmin = catchAsync(async (req: Request, res: Response) => {
         success: true,
         data: result,
     })
+} catch (error) {
+        sendResponse(res, {
+            statusCode: 500,
+            message: error instanceof Error ? error.message : 'Internal Server Error',
+            success: false,
+            data: null,
+        });
+    }
 })
 
 export const AdminController = {

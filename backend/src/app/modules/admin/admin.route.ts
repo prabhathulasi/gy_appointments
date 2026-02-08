@@ -6,7 +6,7 @@ import { CloudinaryHelper } from '../../../helpers/uploadHelper';
 
 const router = express.Router();
 
-router.post('/', auth(AuthUser.ADMIN), AdminController.createAdmin);
+router.post('/create-admin', AdminController.createAdmin);
 router.get('/:id', AdminController.getAdmin);
 router.delete('/:id', auth(AuthUser.ADMIN), AdminController.deleteAdmin);
 router.patch('/:id',
