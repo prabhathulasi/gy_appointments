@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Popover } from "antd";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { Drawer, Button, Modal } from "antd";
 import { useForm } from "react-hook-form";
@@ -21,6 +21,7 @@ import "../../../stylesheets/doctorStylesheets/ProfileSetting.css";
 const HeaderNav = ({ open, setOpen, isLoggedIn, data, avatar, content }) => {
   const { register, handleSubmit, reset } = useForm({});
   const { role } = useAuthCheck();
+  const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectValue, setSelectValue] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -83,26 +84,52 @@ const HeaderNav = ({ open, setOpen, isLoggedIn, data, avatar, content }) => {
       {/* Desktop Navbar */}
       <nav id="navbar" className="navbar order-last order-lg-0">
         <ul>
-          <li>
-            <NavLink
-              to={"/"}
-              className={({ isActive }) =>
-                isActive ? "nav-link scrollto active" : ""
-              }
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to={"/digital-doctors"}
-              className={({ isActive }) =>
-                isActive ? "nav-link scrollto active" : ""
-              }
-            >
-              For Doctors
-            </NavLink>
-          </li>
+          {/* hide some header links when doctor is on dashboard */}
+          {!(role === "doctor" && location.pathname.startsWith("/dashboard")) && (
+            <>
+              <li>
+                <NavLink
+                  to={"/"}
+                  className={({ isActive }) =>
+                    isActive ? "nav-link scrollto active" : ""
+                  }
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"/digital-doctors"}
+                  className={({ isActive }) =>
+                    isActive ? "nav-link scrollto active" : ""
+                  }
+                >
+                  For Doctors
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"/about"}
+                  className={({ isActive }) =>
+                    isActive ? "nav-link scrollto active" : ""
+                  }
+                >
+                  About
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"/contact"}
+                  className={({ isActive }) =>
+                    isActive ? "nav-link scrollto active" : ""
+                  }
+                >
+                  Contact
+                </NavLink>
+              </li>
+            </>
+          )}
+
           {role !== "doctor" && role !== "admin" && (
             <li>
               <NavLink
@@ -115,28 +142,6 @@ const HeaderNav = ({ open, setOpen, isLoggedIn, data, avatar, content }) => {
               </NavLink>
             </li>
           )}
-
-          <li>
-            <NavLink
-              to={"/about"}
-              className={({ isActive }) =>
-                isActive ? "nav-link scrollto active" : ""
-              }
-            >
-              About
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to={"/contact"}
-              className={({ isActive }) =>
-                isActive ? "nav-link scrollto active" : ""
-              }
-            >
-              Contact
-            </NavLink>
-          </li>
           {/* <li>
             <NavLink
               to={"/blog"}
@@ -237,29 +242,35 @@ const HeaderNav = ({ open, setOpen, isLoggedIn, data, avatar, content }) => {
               Book Appointment
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to={"/about"}
-              className={({ isActive }) =>
-                isActive ? "nav-link scrollto active" : "nav-link"
-              }
-            >
-              <FaAddressBook className="icon" />
-              About
-            </NavLink>
-          </li>
+          
+          {/* hide mobile links when doctor on dashboard */}
+          {!(role === "doctor" && location.pathname.startsWith("/dashboard")) && (
+            <>
+              <li>
+                <NavLink
+                  to={"/about"}
+                  className={({ isActive }) =>
+                    isActive ? "nav-link scrollto active" : "nav-link"
+                  }
+                >
+                  <FaAddressBook className="icon" />
+                  About
+                </NavLink>
+              </li>
 
-          <li>
-            <NavLink
-              to={"/contact"}
-              className={({ isActive }) =>
-                isActive ? "nav-link scrollto active" : "nav-link"
-              }
-            >
-              <FaPhoneAlt className="icon" />
-              Contact
-            </NavLink>
-          </li>
+              <li>
+                <NavLink
+                  to={"/contact"}
+                  className={({ isActive }) =>
+                    isActive ? "nav-link scrollto active" : "nav-link"
+                  }
+                >
+                  <FaPhoneAlt className="icon" />
+                  Contact
+                </NavLink>
+              </li>
+            </>
+          )}
           <li>
             <NavLink
               to={"/blog"}

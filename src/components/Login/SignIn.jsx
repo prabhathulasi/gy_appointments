@@ -10,6 +10,8 @@ import {
 import { message } from "antd";
 import { useMessageEffect } from "../../utils/messageSideEffect";
 import ReCAPTCHA from "react-google-recaptcha";
+import { getUserInfo, loggedOut } from "../../service/auth.service";
+import { decodeToken } from "../../utils/jwt";
 
 
 const SignIn = ({ handleSignUpMobileClick }) => {
@@ -17,6 +19,7 @@ const SignIn = ({ handleSignUpMobileClick }) => {
   const [infoError, setInfoError] = useState("");
   const [show, setShow] = useState(true);
   const [captchaChecked, setCaptchaChecked] = useState(false);
+  const [userRole, setUserRole] = useState("patient"); // "patient" or "doctor"
   const {
     register,
     handleSubmit,
@@ -42,7 +45,40 @@ const SignIn = ({ handleSignUpMobileClick }) => {
   }, 10000);
 
   const onSubmit = async (event) => {
-    userLogin({ ...event });
+    try {
+      const result = await userLogin({ ...event }).unwrap();
+      const token = result?.accessToken;
+      if (token) {
+        const userInfoFromToken = decodeToken(token);
+        console.log("SignIn (unwrap): token userInfo:", userInfoFromToken);
+
+        if (userInfoFromToken && userInfoFromToken.role === "admin") {
+          console.log(`SignIn: logged in role: ${userInfoFromToken.role}`);
+          message.success("Successfully Logged in");
+          navigate("/admin/dashboard");
+          return;
+        }
+
+        if (userInfoFromToken && userInfoFromToken.role === userRole) {
+          console.log(`SignIn: logged in role: ${userInfoFromToken.role}`);
+          message.success("Successfully Logged in");
+          if (userInfoFromToken.role === "doctor") {
+            navigate("/dashboard");
+          } else {
+            navigate("/home");
+          }
+          return;
+        }
+
+        console.log("SignIn: role mismatch - selected:", userRole, "tokenRole:", userInfoFromToken?.role);
+        loggedOut();
+        // const errorMsg = `Invalid credentials for ${userRole} login`;
+        // message.error(errorMsg);
+        setInfoError(`Invalid credentials`);
+      }
+    } catch (err) {
+      // error handled by effect
+    }
   };
 
   const onHandleForgotPassword = async (e) => {
@@ -60,14 +96,11 @@ const SignIn = ({ handleSignUpMobileClick }) => {
   );
   useEffect(() => {
     if (isError) {
-      message.error(error?.data?.message);
-      setInfoError(error?.data?.message);
+      const errorMessage = error?.data?.message || error?.data || 'Login failed. Please try again.';
+      message.error(errorMessage);
+      setInfoError(errorMessage);
     }
-    if (isSuccess) {
-      message.success("Successfully Logged in");
-      navigate("/");
-    }
-  }, [isError, error, isSuccess, navigate]);
+  }, [isError, error]);
 
   const handleShowForgotPassword = () => {
     setShowForgotPassword(!showForgotPassword);
@@ -141,7 +174,29 @@ const SignIn = ({ handleSignUpMobileClick }) => {
   ) : (
     <>
       <form className="sign-in-form" onSubmit={handleSubmit(onSubmit)}>
+        
+        <div className="role-selector" style={{ marginBottom: "1.5rem" }}>
+          <button
+            type="button"
+            className={`role-btn ${userRole === "patient" ? "active" : ""}`}
+            onClick={() => setUserRole("patient")}
+          >
+            Patient
+          </button>
+          <button
+            type="button"
+            className={`role-btn ${userRole === "doctor" ? "active" : ""}`}
+            onClick={() => setUserRole("doctor")}
+          >
+            Doctor
+          </button>
+        </div>
+
         <h2 className="title">Sign In</h2>
+
+        <p style={{ fontSize: "0.9rem", color: "var(--textLight)", marginTop: "-0.5rem", marginBottom: "1rem" }}>
+          as {userRole === "doctor" ? "Doctor" : "Patient"}
+        </p>
         <div className="input-field">
           <i class="fa-solid fa-envelope"></i>
           <input
@@ -214,7 +269,7 @@ const SignIn = ({ handleSignUpMobileClick }) => {
           type="submit"
           value="sign In"
           style={{ marginBottom: "3rem", boxShadow: "none" }}
-          disabled={captchaChecked ? "" : true}
+          disabled={!captchaChecked}
         >
           {isLoading ? (
             <Spinner
@@ -228,9 +283,9 @@ const SignIn = ({ handleSignUpMobileClick }) => {
           )}
         </button>
 
-        <p className="social-text">Or Sign in with social platforms</p>
+        {/* <p className="social-text">Or Sign in with social platforms</p>
 
-        <SocialSignUp />
+        <SocialSignUp /> */}
 
         <p className="account-text">
           Don't have an account?{" "}

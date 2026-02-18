@@ -12,7 +12,7 @@ const app: Application = express();
 app.use(CookieParser());
 app.use(cors({
   origin: ['http://localhost:5001',"*"], // Allow all origins. Replace with specific origin(s) in production.
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 

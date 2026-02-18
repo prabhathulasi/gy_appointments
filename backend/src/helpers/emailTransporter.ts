@@ -11,7 +11,7 @@ type IEmailProps = {
     toMail: string,
     subject: string,
 }
-export const EmailtTransporter = async({pathName,replacementObj, toMail, subject }:IEmailProps) =>{  
+export const EmailtTransporter = async({pathName,replacementObj, toMail, subject }:IEmailProps): Promise<boolean> =>{  
     const html = await readHtmlFile(pathName);
     const template = handlebars.compile(html);
     const htmlToSend = template(replacementObj);
@@ -25,9 +25,11 @@ export const EmailtTransporter = async({pathName,replacementObj, toMail, subject
 
     try {
         await Transporter.sendMail(mailOptions);
+        return true;
     } catch (error) {
-        console.log(error);
-        throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "Unable to send Email !");
+        console.error('Email send failed:', error);
+        // Don't throw here to avoid unhandled promise rejections crashing the server
+        return false;
     }
 };
 
