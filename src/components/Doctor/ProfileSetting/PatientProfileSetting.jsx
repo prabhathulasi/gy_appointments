@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { bloodGrupOptions } from "../../../constant/global";
 import { useUpdatePatientMutation } from "../../../redux/api/patientApi";
 import useAuthCheck from "../../../redux/hooks/useAuthCheck";
-import { message } from "antd";
+import { message, Progress } from "antd";
+import { getProfileCompletion } from "../../../utils/profileCompletion";
 import ImageUpload from "../../UI/form/ImageUpload";
 import pImage from "../../../images/user.png";
 import { DatePicker, Select } from "antd";
@@ -14,15 +15,13 @@ import "../../../stylesheets/doctorStylesheets/ProfileSetting.css";
 const { Option } = Select;
 
 const PatientProfileSetting = () => {
+  const navigate = useNavigate();
   const { data } = useAuthCheck();
   const { register, handleSubmit } = useForm({});
   const [userId, setUserId] = useState("");
   // const [selectBloodGroup, setSelectBloodGroup] = useState('');
   const [selectValue, setSelectValue] = useState({});
-  const [
-    updatePatient,
-    { isSuccess, isError, error, isLoading },
-  ] = useUpdatePatientMutation();
+  const [updatePatient, { isLoading }] = useUpdatePatientMutation();
   const [date, setDate] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [file, setFile] = useState(null);
@@ -49,7 +48,7 @@ const PatientProfileSetting = () => {
   //   setSelectValue({ ...selectValue, [e.target.name]: e.target.value });
   // };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const obj = data;
     const newObj = { ...obj, ...selectValue };
     date && (newObj["dateOfBirth"] = date);
@@ -60,20 +59,71 @@ const PatientProfileSetting = () => {
     selectedImage && formData.append("file", file);
     const changeData = JSON.stringify(changedValue);
     formData.append("data", changeData);
-    updatePatient({ data: formData, id: userId });
+    try {
+      await updatePatient({ data: formData, id: userId }).unwrap();
+      message.success("Successfully Profile Updated");
+      navigate("/dashboard");
+    } catch (err) {
+      message.error(err?.data?.message || "Failed to update profile");
+    }
   };
 
-  useEffect(() => {
-    if (!isLoading && isError) {
-      message.error(error?.data?.message);
-    }
-    if (isSuccess) {
-      message.success("Successfully Profile Updated");
-    }
-  }, [isLoading, isError, error, isSuccess]);
+  const {
+    percentage,
+    missingFields,
+    missingRequired,
+    requiredComplete,
+    isComplete,
+    filledCount,
+    totalCount,
+  } = getProfileCompletion(data, "patient");
+
+  // Green when all required fields filled, amber >50%, red <50%
+  const progressColor = requiredComplete
+    ? "#52c41a"
+    : percentage < 50
+    ? "#ff4d4f"
+    : "#faad14";
 
   return (
     <div className="profile-setting" style={{ marginBottom: "10rem" }}>
+      {!isComplete && (
+        <div
+          style={{
+            background: "#fff",
+            border: "1px solid #e8e8e8",
+            borderRadius: 10,
+            padding: "16px 24px",
+            marginBottom: 20,
+            display: "flex",
+            alignItems: "center",
+            gap: 20,
+            flexWrap: "wrap",
+          }}
+        >
+          <Progress
+            type="circle"
+            percent={percentage}
+            size={64}
+            strokeColor={progressColor}
+          />
+          <div>
+            <h6 style={{ fontWeight: 600, marginBottom: 4 }}>
+              Profile {percentage}% complete ({filledCount} of {totalCount} fields)
+            </h6>
+            {missingRequired.length > 0 ? (
+              <p style={{ color: "#ff4d4f", fontSize: 13, margin: 0 }}>
+                Required: {missingRequired.join(", ")}
+              </p>
+            ) : (
+              <p style={{ color: "#52c41a", fontSize: 13, margin: 0 }}>
+                All required fields filled! Complete optional fields to reach 100%.
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="w-100 mb-3 rounded mb-5 p-2">
         <h5 className="text-title mb-2 mt-3">Update Your Information</h5>
         <form className="row form-row" onSubmit={handleSubmit(onSubmit)}>
@@ -136,7 +186,7 @@ const PatientProfileSetting = () => {
 
           <div className="col-md-6">
             <div className="form-group mb-2 card-label">
-              <label className="label-style">Phone Number</label>
+              <label className="label-style">Phone Number <span className="text-danger">*</span></label>
               <input
                 defaultValue={data?.mobile}
                 {...register("mobile")}
@@ -147,7 +197,7 @@ const PatientProfileSetting = () => {
 
           <div className="col-md-6">
             <div className="form-group mb-2 card-label">
-              <label className="label-style">Gender</label>
+              <label className="label-style">Gender <span className="text-danger">*</span></label>
               <Select
                 defaultValue={data?.gender ? data?.gender : "Select"}
                 className="dropdown"
@@ -184,8 +234,9 @@ const PatientProfileSetting = () => {
 
           <div className="col-md-6">
             <div className="form-group mb-2 card-label">
+              <label className="label-style">Date of Birth <span className="text-danger">*</span></label>
               <DatePicker
-                defaultValue={moment(data?.dob)}
+                defaultValue={data?.dateOfBirth ? moment(data.dateOfBirth) : null}
                 placeholder="Select DOB"
                 onChange={onChange}
                 format={"YYYY-MM-DD"}
@@ -197,7 +248,7 @@ const PatientProfileSetting = () => {
 
           <div className="col-md-6">
             <div className="form-group mb-2 card-label">
-              <label className="label-style">City</label>
+              <label className="label-style">City <span className="text-danger">*</span></label>
               <input
                 defaultValue={data?.city}
                 {...register("city")}
@@ -228,7 +279,7 @@ const PatientProfileSetting = () => {
           </div>
           <div className="col-md-6">
             <div className="form-group mb-2 card-label">
-              <label className="label-style">Country</label>
+              <label className="label-style">Country <span className="text-danger">*</span></label>
               <input
                 defaultValue={data?.country}
                 {...register("country")}

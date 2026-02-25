@@ -12,7 +12,12 @@ const TabForm = ({
   showModal,
 }) => {
   return (
-    <Tabs defaultActiveKey="sunday" className="mb-3" onChange={handleOnSelect}>
+    <Tabs
+      defaultActiveKey="sunday"
+      className="mb-3"
+      onChange={handleOnSelect}
+      destroyInactiveTabPane
+    >
       {daysArray.map((item) => (
         <TabPane tab={item.toUpperCase()} key={item}>
           <div className="d-flex justify-content-between">

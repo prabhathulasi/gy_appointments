@@ -199,7 +199,8 @@ const DashboardPage = () => {
               </>
             ) : (
               data.prescriptionStatus === "issued" && (
-                <Link to={`/dashboard/prescription/${data?.prescription?.id}`}>
+                // <Link to={`/dashboard/prescription/${data?.prescription?.id}`}>
+                <Link to={`/dashboard/appointments/${data?.id}`}>
                   <Button icon={<FaEye />} size="medium" className="view-btn">
                     View
                   </Button>

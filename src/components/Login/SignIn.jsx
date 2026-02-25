@@ -65,7 +65,7 @@ const SignIn = ({ handleSignUpMobileClick }) => {
           if (userInfoFromToken.role === "doctor") {
             navigate("/dashboard");
           } else {
-            navigate("/home");
+            navigate("/dashboard");
           }
           return;
         }

@@ -1,11 +1,14 @@
-import moment from "moment";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import { TimePicker } from "antd";
 
-const TimePicer = ({ id, time, handleFunction, showValue = false }) => {
-  const defaultTime = moment(time, "h:mm a");
+dayjs.extend(customParseFormat);
+
+const TimePicer = ({ id, time, handleFunction }) => {
+  const timeValue = time ? dayjs(time, "h:mm a") : null;
   return (
     <TimePicker
-      defaultValue={showValue && defaultTime}
+      value={timeValue}
       use12Hours
       format="h:mm a"
       onChange={(time, timeString) => handleFunction(id, time, timeString)}

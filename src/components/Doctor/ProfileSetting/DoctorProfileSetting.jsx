@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useForm } from "react-hook-form";
-import { Button, Select, message } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Select, message, Progress } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { useUpdateDoctorMutation } from "../../../redux/api/doctorApi";
 import useAuthCheck from "../../../redux/hooks/useAuthCheck";
 import { doctorSpecialistOptions } from "../../../constant/global";
+import { getProfileCompletion } from "../../../utils/profileCompletion";
 import ImageUpload from "../../UI/form/ImageUpload";
 import dImage from "../../../images/user.png";
 import { DatePicker } from "antd";
@@ -14,6 +15,7 @@ import "../../../stylesheets/doctorStylesheets/ProfileSetting.css";
 const { Option } = Select;
 
 const DoctorProfileSetting = () => {
+  const navigate = useNavigate();
   const [selectedItems, setSelectedItems] = useState([]);
   const [updateDoctor, { isLoading, isSuccess, isError, error }] =
     useUpdateDoctorMutation();
@@ -65,11 +67,66 @@ const DoctorProfileSetting = () => {
     }
     if (isSuccess) {
       message.success("Successfully Changed Saved !");
+      navigate("/dashboard");
     }
   }, [isLoading, isError, error, isSuccess]);
 
+  const {
+    percentage,
+    missingFields,
+    missingRequired,
+    requiredComplete,
+    isComplete,
+    filledCount,
+    totalCount,
+  } = getProfileCompletion(data, "doctor");
+
+  // Green when all required fields filled, amber >50%, red <50%
+  const progressColor = requiredComplete
+    ? "#52c41a"
+    : percentage < 50
+    ? "#ff4d4f"
+    : "#faad14";
+
   return (
     <div className="profile-setting" style={{ marginBottom: "10rem" }}>
+      {!isComplete && (
+        <div
+          style={{
+            background: "#fff",
+            border: "1px solid #e8e8e8",
+            borderRadius: 10,
+            padding: "16px 24px",
+            marginBottom: 20,
+            display: "flex",
+            alignItems: "center",
+            gap: 20,
+            flexWrap: "wrap",
+          }}
+        >
+          <Progress
+            type="circle"
+            percent={percentage}
+            size={64}
+            strokeColor={progressColor}
+          />
+          <div>
+            <h6 style={{ fontWeight: 600, marginBottom: 4 }}>
+              Profile {percentage}% complete ({filledCount} of {totalCount} fields)
+            </h6>
+            {missingRequired.length > 0 ? (
+              <p style={{ color: "#ff4d4f", fontSize: 13, margin: 0 }}>
+                Required: {missingRequired.join(", ")}
+              </p>
+            ) : (
+              <p style={{ color: "#52c41a", fontSize: 13, margin: 0 }}>
+                All required fields filled! Complete optional fields to reach 100%.
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="w-100 mb-3 rounded mb-5 p-2">
         <h5 className="text-title mb-2 mt-3">Update Your Information</h5>
         <form className="row form-row" onSubmit={handleSubmit(onSubmit)}>
@@ -136,7 +193,7 @@ const DoctorProfileSetting = () => {
 
           <div className="col-md-6">
             <div className="form-group mb-2 card-label">
-              <label className="label-style">Phone Number</label>
+              <label className="label-style">Phone Number <span className="text-danger">*</span></label>
               <input
                 defaultValue={data?.phone}
                 {...register("phone")}
@@ -148,7 +205,7 @@ const DoctorProfileSetting = () => {
 
           <div className="col-md-6">
             <div className="form-group mb-2 card-label">
-              <label className="label-style">Gender</label>
+              <label className="label-style">Gender <span className="text-danger">*</span></label>
 
               <Select
                 defaultValue={data?.gender ? data?.gender : "Select"}
@@ -166,10 +223,10 @@ const DoctorProfileSetting = () => {
           <div className="col-md-6">
             <div className="form-group mb-2 card-label">
               <label className="label-style">
-                Date of Birth {moment(data?.dob).format("LL")}
+                Date of Birth <span className="text-danger">*</span> {data?.dob ? moment(data.dob).format("LL") : ""}
               </label>
               <DatePicker
-                defaultValue={moment(data?.dob)}
+                defaultValue={data?.dob ? moment(data.dob) : null}
                 placeholder="Select DOB"
                 onChange={onChange}
                 format={"YYYY-MM-DD"}
@@ -248,7 +305,7 @@ const DoctorProfileSetting = () => {
 
                 <div className="col-md-6">
                   <div className="form-group mb-2 card-label">
-                    <label className="label-style">City</label>
+                    <label className="label-style">City <span className="text-danger">*</span></label>
                     <input
                       defaultValue={data?.city}
                       {...register("city")}
@@ -271,7 +328,7 @@ const DoctorProfileSetting = () => {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group mb-2 card-label">
-                    <label className="label-style">Country</label>
+                    <label className="label-style">Country <span className="text-danger">*</span></label>
                     <input
                       defaultValue={data?.country}
                       {...register("country")}
@@ -360,7 +417,7 @@ const DoctorProfileSetting = () => {
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group mb-2 card-label">
-                    <label className="label-style">Appointment Fee</label>
+                    <label className="label-style">Appointment Fee <span className="text-danger">*</span></label>
                     <input
                       defaultValue={data?.price}
                       {...register("price")}
@@ -397,7 +454,7 @@ const DoctorProfileSetting = () => {
                   </small>
                 </div>
                 <div className="form-group mb-2 card-label">
-                  <label className="label-style">Specialization </label>
+                  <label className="label-style">Specialization <span className="text-danger">*</span></label>
                   <input
                     defaultValue={data?.specialization}
                     {...register("specialization")}

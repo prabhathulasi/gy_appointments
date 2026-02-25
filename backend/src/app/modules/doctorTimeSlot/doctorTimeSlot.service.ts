@@ -62,21 +62,22 @@ const createTimeSlot = async (user: any, payload: any): Promise<DoctorTimeSlot |
     return result;
 }
 
-const deleteTimeSlot = async (id: string): Promise<DoctorTimeSlot | null> => {
-
-    const result_medi = await prisma.scheduleDay.deleteMany({
-        where: {
-            doctorTimeSlotId: id
-        }
+const deleteTimeSlot = async (id: string): Promise<{ message: string }> => {
+    const existingSlot = await prisma.scheduleDay.findUnique({
+        where: { id },
+        select: { id: true }
     });
 
-    const result = await prisma.doctorTimeSlot.delete({
-        where: {
-            id: id
-        }
-    })
-    return result;
-}
+    if (!existingSlot) {
+        throw new ApiError(httpStatus.NOT_FOUND, "Time slot not found");
+    }
+
+    await prisma.scheduleDay.delete({
+        where: { id }
+    });
+
+    return { message: "Successfully deleted time slot" };
+};
 
 const getTimeSlot = async (id: string): Promise<DoctorTimeSlot | null> => {
     const result = await prisma.doctorTimeSlot.findFirst({
@@ -163,14 +164,14 @@ const updateTimeSlot = async (user: any, id: string, payload: any): Promise<{ me
     }
 
     if (timeSlot && timeSlot.length > 0) {
-        await Promise.all(timeSlot.map(async (item: ScheduleDay) => {
-            const { doctorTimeSlotId, ...others } = item;
+        await Promise.all(timeSlot.map(async (item: any) => {
+            const { doctorTimeSlotId, startTime, endTime } = item;
             try {
-                await prisma.scheduleDay.updateMany({
-                    where: { id: others.id },
+                await prisma.scheduleDay.update({
+                    where: { id: doctorTimeSlotId },
                     data: {
-                        startTime: others.startTime,
-                        endTime: others.endTime
+                        startTime,
+                        endTime
                     }
                 })
             } catch (error) {

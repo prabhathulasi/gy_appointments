@@ -177,7 +177,7 @@ const Appointments = () => {
                         View
                       </Button>
                     </Link>
-                    {item.prescriptionStatus === "notIssued" ? (
+                    {item?.prescriptionStatus === "notIssued" ? (
                       <Link to={`/dashboard/appointment/treatment/${item?.id}`}>
                         <Button
                           type="primary"
@@ -189,7 +189,7 @@ const Appointments = () => {
                       </Link>
                     ) : (
                       <Link
-                        to={`/dashboard/prescription/${item?.prescription?.id}`}
+                        to={`/dashboard/prescription/${item?.prescriptions?.[0]?.id}`}
                       >
                         <Button type="primary" icon={<FaEye />} size="medium">
                           Prescription
@@ -198,7 +198,7 @@ const Appointments = () => {
                     )}
                     {item?.isFollowUp && (
                       <Link
-                        to={`/dashboard/appointment/treatment/edit/${item?.prescription[0]?.id}`}
+                        to={`/dashboard/appointment/treatment/edit/${item?.prescriptions?.[0]?.id}`}
                       >
                         <Button
                           type="primary"

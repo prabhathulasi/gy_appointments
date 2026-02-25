@@ -12,6 +12,7 @@ import {
   FrequencyOptions,
   MedicalCheckupOptions,
   PatientStatus,
+  PaymentStatusOptions,
   appointemntStatusOption,
 } from "../../../constant/global";
 import SelectForm from "../../UI/form/SelectForm";
@@ -33,6 +34,7 @@ const Treatment = () => {
   const [isDisable, setIsDisable] = useState(true);
   const [selectAppointmentStatus, setSelectAppointmentStatus] = useState("");
   const [patientStatus, setPatientStatus] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("");
   const [daignosis, setDaignosis] = useState([]);
   const [disease, setDisease] = useState([]);
   const [medicalCheckup, setMedicalCheckup] = useState([]);
@@ -46,6 +48,7 @@ const Treatment = () => {
     const isInputEmpty =
       !selectAppointmentStatus ||
       !patientStatus ||
+      !paymentStatus ||
       !instruction ||
       !followUpDate ||
       !daignosis.length === 0 ||
@@ -55,6 +58,7 @@ const Treatment = () => {
   }, [
     selectAppointmentStatus,
     patientStatus,
+    paymentStatus,
     followUpDate,
     instruction,
     medicineList,
@@ -85,6 +89,7 @@ const Treatment = () => {
     const obj = {};
     obj.status = selectAppointmentStatus;
     obj.patientType = patientStatus;
+    obj.paymentStatus = paymentStatus;
 
     daignosis.length && (obj["daignosis"] = daignosis.join(","));
     disease.length && (obj["disease"] = disease.join(","));
@@ -164,6 +169,21 @@ const Treatment = () => {
                       showSearch={true}
                       options={PatientStatus}
                       setSelectData={setPatientStatus}
+                    />
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="form-group mb-4">
+                    <div className="card-label">
+                      <label className="label-style">
+                        Payment Status
+                      </label>
+                    </div>
+                    <SelectForm
+                      showSearch={true}
+                      options={PaymentStatusOptions}
+                      setSelectData={setPaymentStatus}
                     />
                   </div>
                 </div>
