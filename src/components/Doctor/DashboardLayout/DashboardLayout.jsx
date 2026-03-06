@@ -115,8 +115,8 @@ const DashboardLayout = ({ children }) => {
                   <div
                     style={{
                       background: "#fff",
-                      border: "1px solid #e8e8e8",
-                      borderRadius: 10,
+                      border: "5px solid #e8e8e8",
+                      borderRadius: 15,
                       padding: "16px 24px",
                       marginTop: 20,
                       marginBottom: 16,
@@ -130,7 +130,7 @@ const DashboardLayout = ({ children }) => {
                       type="circle"
                       percent={percentage}
                       size={56}
-                      strokeColor="#52c41a"
+                      strokeColor="#2b0057"
                     />
                     <div style={{ flex: 1, minWidth: 200 }}>
                       <h6 style={{ fontWeight: 600, marginBottom: 4 }}>
@@ -143,7 +143,7 @@ const DashboardLayout = ({ children }) => {
                     <Link
                       to="/dashboard/profile-setting"
                       style={{
-                        backgroundColor: "#1b5a90",
+                        backgroundColor: "#2b0057",
                         color: "#fff",
                         padding: "6px 18px",
                         borderRadius: 6,

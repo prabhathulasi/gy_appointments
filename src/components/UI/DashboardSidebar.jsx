@@ -281,6 +281,16 @@ const DashboardSidebar = () => {
                 <span>Invoices</span>
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to={"/dashboard/subscription"}
+                activeClassName="active"
+                end
+              >
+                <FaHeartbeat className="icon" />
+                <span>Subscription</span>
+              </NavLink>
+            </li>
 
             <li>
               <NavLink to={"/dashboard/reviews"} activeClassName="active" end>
@@ -331,7 +341,7 @@ const DashboardSidebar = () => {
                 <FaHome className="icon" /> <span>Dashboard</span>
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 to={"/admin/doctor-requests"}
                 activeClassName="active"
@@ -340,7 +350,7 @@ const DashboardSidebar = () => {
                 <i class="fa-solid fa-stethoscope icon"></i>{" "}
                 <span>Doctor Requests</span>
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink to={"/admin/appointments"} activeClassName="active" end>
                 <FaListUl className="icon" /> <span>Appointments</span>

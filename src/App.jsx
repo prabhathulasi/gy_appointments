@@ -13,7 +13,7 @@ import Reviews from "./components/Doctor/Reviews/Reviews";
 import Schedule from "./components/Doctor/Schedule/Schedule";
 import ProfileSetting from "./components/Doctor/ProfileSetting/ProfileSetting";
 import ChangePassword from "./components/Doctor/ChangePassword/ChangePassword";
-
+import Pricing from "./components/Doctor/subscription/subscription";
 // Admin Components
 import AdminDashboard from "./components/Admin/Dashboard";
 import AdminAppointments from "./components/Admin/Appointments";
@@ -110,6 +110,7 @@ function App() {
               element={<PrescriptionView />}
             />
             <Route path="/dashboard/schedule" element={<Schedule />} />
+            <Route path="/dashboard/subscription" element={<Pricing />} />
             <Route path="/dashboard/invoices" element={<DoctorInvoice />} />
             <Route path="/dashboard/reviews" element={<Reviews />} />
             <Route
@@ -156,7 +157,7 @@ function App() {
 
           {/* Admin Dashboard  */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/doctor-requests" element={<DoctorRequest />} />
+          {/* <Route path="/admin/doctor-requests" element={<DoctorRequest />} /> */}
 
           <Route path="/admin/appointments" element={<AdminAppointments />} />
           <Route path="/admin/doctors" element={<Doctors />} />

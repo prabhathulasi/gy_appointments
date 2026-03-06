@@ -83,7 +83,7 @@ const DoctorProfileSetting = () => {
 
   // Green when all required fields filled, amber >50%, red <50%
   const progressColor = requiredComplete
-    ? "#52c41a"
+    ? "#2b0057"
     : percentage < 50
     ? "#ff4d4f"
     : "#faad14";
@@ -115,11 +115,11 @@ const DoctorProfileSetting = () => {
               Profile {percentage}% complete ({filledCount} of {totalCount} fields)
             </h6>
             {missingRequired.length > 0 ? (
-              <p style={{ color: "#ff4d4f", fontSize: 13, margin: 0 }}>
+              <p style={{ color: "#ffb54d", fontSize: 13, margin: 0 }}>
                 Required: {missingRequired.join(", ")}
               </p>
             ) : (
-              <p style={{ color: "#52c41a", fontSize: 13, margin: 0 }}>
+              <p style={{ color: "#2b0057", fontSize: 13, margin: 0 }}>
                 All required fields filled! Complete optional fields to reach 100%.
               </p>
             )}
