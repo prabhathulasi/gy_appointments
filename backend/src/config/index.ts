@@ -13,7 +13,7 @@ export default {
     jwt: {
         secret: process.env.JWT_SCRET,
         JWT_EXPIRES_IN: process.env.JWT_EXPIRED_IN,
-        refresh_secret: process.env.JWT_REFRESH_SCRET,
+        refresh_secret: process.env.JWT_REFRESH_SECRET,
     },
     cloudinary: {
         name: process.env.CLOUND_NAME,
