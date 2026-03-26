@@ -43,8 +43,9 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             success: false,
             message: err.message || 'Something Went Wrong',
+            errorName: err.name,
             errorDetail: String(err),
-            errorStack: err.stack,
+            errorStack: err.stack?.split('\n').slice(0, 5),
         });
     }
     next();
