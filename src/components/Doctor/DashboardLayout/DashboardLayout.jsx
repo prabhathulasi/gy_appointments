@@ -5,10 +5,19 @@ import DashboardSidebar from "../../UI/DashboardSidebar";
 import Header from "../../Shared/Header/Header";
 import useAuthCheck from "../../../redux/hooks/useAuthCheck";
 import { getProfileCompletion } from "../../../utils/profileCompletion";
+import { useGetMySubscriptionQuery } from "../../../redux/api/subscriptionApi";
 
 const DashboardLayout = ({ children }) => {
   const { data, role } = useAuthCheck();
   const location = useLocation();
+  // Check subscription status for doctors
+  const { data: subscription, isLoading: subLoading } = useGetMySubscriptionQuery(undefined, {
+    skip: role !== 'doctor',
+  });
+
+  const isSubscriptionPage = location.pathname === "/dashboard/subscription";
+  const isExpired = role === 'doctor' && !subLoading && (!subscription || subscription?.status === 'expired' || subscription?.status === 'cancelled');
+  const shouldShowSubscriptionBlock = isExpired && !isSubscriptionPage;
   const {
     percentage,
     filledCount,
@@ -44,7 +53,41 @@ const DashboardLayout = ({ children }) => {
             <DashboardSidebar />
           </div>
           <div className="col-md-8 col-lg-8 col-xl-9">
-            {shouldBlock ? (
+            {shouldShowSubscriptionBlock ? (
+              <div
+                style={{
+                  background: "#fff",
+                  border: "1px solid #e8e8e8",
+                  borderRadius: 10,
+                  padding: "32px",
+                  marginTop: 20,
+                  textAlign: "center",
+                }}
+              >
+                <div style={{ fontSize: 48, marginBottom: 16 }}>&#128274;</div>
+                <h4 style={{ fontWeight: 700, marginBottom: 8, color: "#2b0057" }}>
+                  Your Subscription Has Expired
+                </h4>
+                <p style={{ color: "#666", fontSize: 15, marginBottom: 20, maxWidth: 500, margin: "0 auto 20px" }}>
+                  Your free trial or subscription has ended. Please subscribe to continue using all features of your dashboard.
+                </p>
+                <Link
+                  to="/dashboard/subscription"
+                  style={{
+                    backgroundColor: "#2b0057",
+                    color: "#fff",
+                    padding: "10px 32px",
+                    borderRadius: 6,
+                    fontWeight: 600,
+                    textDecoration: "none",
+                    fontSize: 15,
+                    display: "inline-block",
+                  }}
+                >
+                  View Subscription Plans
+                </Link>
+              </div>
+            ) : shouldBlock ? (
               <div
                 style={{
                   background: "#fff",

@@ -541,17 +541,17 @@ const getDoctorPatients = async (user: any): Promise<Patient[]> => {
 
     const patients = await prisma.appointment.findMany({
         where: {
-            doctorId: userId
+            doctorId: userId,
+            patientId: { not: null }
         },
         distinct: ['patientId']
     });
 
     //extract patients from the appointments table
-    const patientIds = patients.map(appointment => appointment.patientId);
+    const patientIds = patients.map(appointment => appointment.patientId).filter(Boolean) as string[];
     const patientList = await prisma.patient.findMany({
         where: {
             id: {
-                // @ts-ignore
                 in: patientIds
             }
         }
@@ -593,27 +593,29 @@ const getDoctorPatientsHistory = async (user: any): Promise<Prescription[] | nul
         throw new ApiError(httpStatus.NOT_FOUND, 'Doctor Account is not found !!');
     }
 
-    // Find the first appointment with medical history for the doctor
-    const appointment = await prisma.appointment.findFirst({
+    // Find all unique patient IDs for this doctor's appointments
+    const appointments = await prisma.appointment.findMany({
         where: {
             doctorId: userId,
-            medicalHistory: "yes",
             patientId: { not: null }
         },
+        distinct: ['patientId'],
         select: {
             patientId: true
         }
     });
 
-    // If no appointment found, return an empty array
-    if (!appointment) {
+    const patientIds = appointments.map(a => a.patientId).filter(Boolean) as string[];
+
+    // If no patients found, return an empty array
+    if (patientIds.length === 0) {
         return [];
     }
 
-    // Find prescriptions for the patient
+    // Find prescriptions for all the doctor's patients
     const patientsPrescriptions = await prisma.prescription.findMany({
         where: {
-            patientId: appointment.patientId as string
+            patientId: { in: patientIds }
         },
         include: {
             medicines: true,

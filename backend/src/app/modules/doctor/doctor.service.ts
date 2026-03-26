@@ -59,6 +59,20 @@ const create = async (payload: any): Promise<any> => {
                 userId: doctor.id
             },
         });
+
+        // Auto-start 45-day free trial on registration
+        const trialStartDate = new Date();
+        const trialEndDate = moment(trialStartDate).add(45, "days").toDate();
+        await tx.subscription.create({
+            data: {
+                doctorId: doctor.id,
+                plan: "free_trial",
+                status: "active",
+                trialStartDate,
+                trialEndDate,
+            },
+        });
+
         return doctor
     });
 
@@ -119,6 +133,34 @@ const getAllDoctors = async (filters: IDoctorFilters, options: IOption): Promise
         skip,
         take: limit,
         where: whereCondition,
+        include: {
+            subscriptions: {
+                orderBy: { createdAt: "desc" },
+                take: 1,
+                select: {
+                    plan: true,
+                    status: true,
+                    trialEndDate: true,
+                    expiryDate: true,
+                },
+            },
+        },
+    });
+
+    const doctorsWithSubscription = result.map((doctor: any) => {
+        const sub = doctor.subscriptions?.[0];
+        let subscriptionStatus = "none";
+        if (sub) {
+            const now = new Date();
+            const endDate = sub.plan === "free_trial" ? sub.trialEndDate : sub.expiryDate;
+            if (sub.status === "active" && endDate && now > endDate) {
+                subscriptionStatus = "expired";
+            } else {
+                subscriptionStatus = sub.status;
+            }
+        }
+        const { subscriptions, ...doctorData } = doctor;
+        return { ...doctorData, subscriptionStatus, subscriptionPlan: sub?.plan || null };
     });
 
     const total = await prisma.doctor.count({ where: whereCondition });
@@ -128,7 +170,7 @@ const getAllDoctors = async (filters: IDoctorFilters, options: IOption): Promise
             limit,
             total,
         },
-        data: result
+        data: doctorsWithSubscription
     }
 }
 
@@ -218,7 +260,7 @@ const add_doctor = async (req: Request): Promise<any> => {
       const doctorData = { ...othersData, firstName, lastName, fullName };
   
       const doctor = await tx.doctor.create({ data: doctorData });
-  
+
       await tx.auth.create({
         data: {
           email: doctor.email,
@@ -227,6 +269,20 @@ const add_doctor = async (req: Request): Promise<any> => {
           userId: doctor.id,
         },
       });
+
+      // Auto-start 45-day free trial on registration
+      const trialStartDate = new Date();
+      const trialEndDate = moment(trialStartDate).add(45, "days").toDate();
+      await tx.subscription.create({
+          data: {
+              doctorId: doctor.id,
+              plan: "free_trial",
+              status: "active",
+              trialStartDate,
+              trialEndDate,
+          },
+      });
+
       return doctor;
     });
   

@@ -143,34 +143,26 @@ const Pricing = () => {
             <thead>
               <tr>
                 <th>Feature</th>
-                <th>Starter</th>
-                <th>Growth</th>
-                <th>Professional</th>
-                <th>Premium</th>
+                <th>Free Trial</th>
+                <th>Subscription</th>
               </tr>
             </thead>
             <tbody>
               {COMPARISON_FEATURES.map((row) => (
                 <tr key={row.name}>
                   <td>{row.name}</td>
-                  {["starter", "growth", "professional", "premium"].map(
-                    (tier) => {
-                      const val = row[tier];
-                      const isHighlight = row.highlight && tier === "premium";
-                      return (
-                        <td
-                          key={tier}
-                          className={isHighlight ? styles.cellHighlight : ""}
-                        >
-                          {val === null ? (
-                            <span className={styles.xMark}>&#x2715;</span>
-                          ) : (
-                            val
-                          )}
-                        </td>
-                      );
-                    }
-                  )}
+                  {["free", "subscription"].map((tier) => {
+                    const val = row[tier];
+                    return (
+                      <td key={tier}>
+                        {val === null ? (
+                          <span className={styles.xMark}>&#x2715;</span>
+                        ) : (
+                          val
+                        )}
+                      </td>
+                    );
+                  })}
                 </tr>
               ))}
             </tbody>

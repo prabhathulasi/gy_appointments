@@ -23,5 +23,9 @@ instance.interceptors.response.use(function (response) {
     }
     return responseObj;
 }, function (error) {
+    // Redirect to subscription page on 403 subscription expired error
+    if (error?.response?.status === 403 && error?.response?.data?.message?.toLowerCase().includes('subscription')) {
+        window.location.href = '/dashboard/subscription';
+    }
     return Promise.reject(error);
 });

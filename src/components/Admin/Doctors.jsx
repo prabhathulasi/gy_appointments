@@ -45,6 +45,7 @@ const Doctors = () => {
                       <th>City</th>
                       <th>State</th>
                       <th>Charges</th>
+                      <th>Subscription Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -93,6 +94,32 @@ const Doctors = () => {
                         <td>
                           <span className="table-data">
                             ₹{doctor.price ? doctor.price : "N/A"}
+                          </span>
+                        </td>
+                        <td>
+                          <span
+                            className="table-data"
+                            style={{
+                              padding: "4px 10px",
+                              borderRadius: "20px",
+                              fontSize: "12px",
+                              fontWeight: "600",
+                              color: "#fff",
+                              backgroundColor:
+                                doctor.subscriptionStatus === "active"
+                                  ? "#28a745"
+                                  : doctor.subscriptionStatus === "expired"
+                                  ? "#dc3545"
+                                  : "#6c757d",
+                            }}
+                          >
+                            {doctor.subscriptionStatus === "active" && doctor.subscriptionPlan === "free_trial"
+                              ? "Free Trial"
+                              : doctor.subscriptionStatus === "active"
+                              ? "Active"
+                              : doctor.subscriptionStatus === "expired"
+                              ? "Expired"
+                              : "No Subscription"}
                           </span>
                         </td>
                       </tr>

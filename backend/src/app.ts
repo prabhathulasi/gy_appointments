@@ -35,9 +35,9 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof ApiError) {
         res.status(err.statusCode).json({ success: false, message: err.message })
     } else {
-        res.status(httpStatus.NOT_FOUND).json({
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'Something Went Wrong',
+            message: err.message || 'Something Went Wrong',
         });
     }
     next();

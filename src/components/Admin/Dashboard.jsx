@@ -15,6 +15,7 @@ const AdminDashboard = () => {
   const [patientCount, setPatientCount] = useState(0);
   const [appointmentCount, setAppointmentCount] = useState(0);
   const [revenueCount, setRevenueCount] = useState(0);
+  const [subscriptionRevenue, setSubscriptionRevenue] = useState(0);
 
   const fetchCounts = async () => {
     try {
@@ -48,16 +49,30 @@ const AdminDashboard = () => {
       const appointmentData = await appointmentResponse.json();
       setAppointmentCount(appointmentData.data.length);
 
-      // Fetch revenue count
-      //(total revenue from all appointments currently not working due to no payment table in the database)
-      const revenueResponse = await fetch(`${getBaseUrl()}/revenue`, {
+      // Fetch platform fee revenue from appointments
+      const revenueResponse = await fetch(`${getBaseUrl()}/payment/revenue`, {
         method: "GET",
         headers: {
           Authorization: authorizationToken,
         },
       });
       const revenueData = await revenueResponse.json();
-      setRevenueCount(revenueData.totalRevenue);
+      setRevenueCount(revenueData.totalRevenue || 0);
+
+      // Fetch subscription revenue
+      const subscriptionRevenueResponse = await fetch(
+        `${getBaseUrl()}/subscription/revenue`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: authorizationToken,
+          },
+        }
+      );
+      const subscriptionRevenueData = await subscriptionRevenueResponse.json();
+      if (subscriptionRevenueData?.data) {
+        setSubscriptionRevenue(subscriptionRevenueData.data.totalRevenue);
+      }
     } catch (error) {
       console.error("Error fetching counts:", error);
     }
@@ -165,7 +180,21 @@ const AdminDashboard = () => {
                 Rs. {revenueCount}
               </h3>
 
-              <p className="info-label">Total Revenue</p>
+              <p className="info-label">Other Revenue (Platform Fee)</p>
+            </div>
+          </div>
+
+          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+            <div className="info-card">
+              <span className="info-icon" style={{ backgroundColor: "#6f42c1" }}>
+                <i class="fa-solid fa-credit-card"></i>
+              </span>
+
+              <h3 className="info-count" style={{ fontSize: "1.5rem" }}>
+                Rs. {subscriptionRevenue}
+              </h3>
+
+              <p className="info-label">Subscription Revenue</p>
             </div>
           </div>
         </div>
