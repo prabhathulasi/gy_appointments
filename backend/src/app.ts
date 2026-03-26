@@ -25,8 +25,12 @@ app.get('/favicon.ico', (req: Request, res: Response) => {
     res.status(204).end();
 })
 
-app.get('/', (req: Request, res: Response) => {
-    res.send(config.clientUrl)
+app.get('/', async (req: Request, res: Response) => {
+    try {
+        res.send(`Server is running. Env: ${config.env}`)
+    } catch (err: any) {
+        res.status(500).json({ error: err.message })
+    }
 })
 
 app.use('/api/v1', router);
@@ -39,6 +43,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             success: false,
             message: err.message || 'Something Went Wrong',
+            errorDetail: String(err),
+            errorStack: err.stack,
         });
     }
     next();
