@@ -18,6 +18,7 @@ const Schedule = () => {
   const [editTimeSlot, setEditTimeSlot] = useState([]);
   const [addTimeSlot, setAddTimeSlot] = useState([]);
   const [deleteTimeSlot] = useDeleteTimeSlotMutation();
+  const [newEditSlots, setNewEditSlots] = useState([]);
   const [
     UpdateTimeSlot,
     {
@@ -40,76 +41,69 @@ const Schedule = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const showModal = () => {
-    setIsModalOpen(!isModalOpen);
+    setAddTimeSlot([]);
+    setIsModalOpen(true);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
   const showEditModal = () => {
-    setIsEditModalOpen(!isEditModalOpen);
+    setEditTimeSlot(timeSlot.map(item => ({ ...item }))); // deep copy existing
+    setNewEditSlots([]); 
+    setIsEditModalOpen(true);
   };
 
   const handleEditOk = () => {
-    if (editTimeSlot.length > 0) {
-      const { toCreate, toUpdate } = editTimeSlot.reduce(
-        (acc, cur) => {
-          if (cur.doctorTimeSlotId) {
-            acc.toUpdate.push(cur);
-          } else {
-            acc.toCreate.push({ ...cur, day: key });
-          }
-          return acc;
-        },
-        { toCreate: [], toUpdate: [] }
-      );
-      UpdateTimeSlot({ timeSlot: toUpdate, create: toCreate });
+    const toUpdate = editTimeSlot
+    .filter((slot) => slot.startTime && slot.endTime) // skip incomplete
+    .map((slot) => ({
+      doctorTimeSlotId: slot.id,     // adjust field name if your API expects something else
+      startTime: slot.startTime,
+      endTime: slot.endTime,
+    }));
+
+    const toCreate = newEditSlots
+    .filter((slot) => slot.startTime && slot.endTime)
+    .map((slot) => ({
+      startTime: slot.startTime,
+      endTime: slot.endTime,
+      day: key,
+    }));
+
+    if (toUpdate.length === 0 && toCreate.length === 0) {
+      message.info("No changes to save");
+      setIsEditModalOpen(false);
+      return;
     }
-    setIsEditModalOpen(UIsLoading ? true : false);
+
+      UpdateTimeSlot({ timeSlot: toUpdate, create: toCreate });
   };
 
   useEffect(() => {
     if (!UIsLoading && uIsError) {
       message.error(uError?.data?.message);
+      setIsEditModalOpen(false);
     }
     if (uIsSuccess) {
       message.success("Successfully Slot Updated");
+      setIsEditModalOpen(false);
     }
   }, [uIsSuccess, uIsError, UIsLoading, uError?.data?.message]);
 
   const handleEditStartTime = (id, time, timeString) => {
-    const findIndex = timeSlot.find((item) => item.id === id);
-    const updatedItem = { ...findIndex, startTime: timeString };
-    setEditTimeSlot((prev) => {
-      const indexToUpdate = prev.findIndex((item) => item.id === id);
-      if (indexToUpdate !== -1) {
-        const updatedArray = [...prev];
-        updatedArray[indexToUpdate] = updatedItem;
-        return updatedArray;
-      } else {
-        return [...prev, updatedItem];
-      }
-    });
+    setEditTimeSlot((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, startTime: timeString } : item
+      )
+    );
   };
 
   const handleEditEndTime = (id, time, timeString) => {
-    const findObject = timeSlot.find((item) => item.id === id);
-    if (findObject) {
-      const editedObject = editTimeSlot.find((item) => item.id === id);
-
-      const updateObject = editedObject.id
-        ? { ...editedObject, endTime: timeString }
-        : { ...findObject, endTime: timeString };
-      setEditTimeSlot((prev) => {
-        const findIndex = prev.findIndex((item) => item.id === id);
-        if (findIndex !== -1) {
-          const updateArray = [...prev];
-          updateArray[findIndex] = updateObject;
-          return updateArray;
-        } else {
-          return [...prev, updateObject];
-        }
-      });
-    }
+    setEditTimeSlot((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, endTime: timeString } : item
+      )
+    );
   };
   const handleEditCancel = () => {
     setIsEditModalOpen(!isEditModalOpen);
@@ -125,14 +119,15 @@ const Schedule = () => {
       timeSlot: timeSlot,
     };
     createTimeSlot({ data });
-    setIsModalOpen(AIsLoading ? true : false);
   };
   useEffect(() => {
     if (!AIsLoading && AIsError) {
       message.error(error?.data?.message);
+      setIsModalOpen(false);
     }
     if (isSuccess) {
       message.success("Successfully Add Time Slots");
+      setIsModalOpen(false);
     }
   }, [isSuccess, AIsError, error?.data?.message, AIsLoading]);
 
@@ -153,31 +148,36 @@ const Schedule = () => {
   };
   const handleOnSelect = (value) => {
     setKey(value);
-    refetch();
+    setTimeSlot([]);
   };
 
   useEffect(() => {
-    if (data && data[0]?.id) {
+    if (data && data[0]?.id && data[0]?.timeSlot) {
       setTimeSlot(data[0].timeSlot);
+    } else {
+      setTimeSlot([]);
     }
   }, [data]);
 
-  const remove = (id) => {
-    setTimeSlot(timeSlot.filter((item) => item.id !== id));
+  const removeEditSlot = (id) => {
+    setEditTimeSlot((prev) => prev.filter((item) => item.id !== id));
   };
   const addField = (e) => {
-    const getLastValue = timeSlot[timeSlot.length - 1];
-    setTimeSlot([...timeSlot, { id: getLastValue.id + 1 }]);
     e.preventDefault();
+  const newId = `temp-${Date.now()}-${Math.random().toString(36).slice(2)}`; // or just use index
+  setNewEditSlots(prev => [...prev, { id: newId }]);
+};
+const removeNew = (id) => {
+  setNewEditSlots(prev => prev.filter(item => item.id !== id));
   };
 
   const removeFromAddTimeSlot = (id) => {
     setAddTimeSlot(addTimeSlot.filter((item) => item.id !== id));
   };
   const addInAddTimeSlot = (e) => {
-    const newId = addTimeSlot.length + 1;
-    setAddTimeSlot([...addTimeSlot, { id: newId }]);
     e.preventDefault();
+    const newId = `add-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    setAddTimeSlot([...addTimeSlot, { id: newId }]);
   };
 
   const deleteHandler = async (id) => {
@@ -219,7 +219,7 @@ const Schedule = () => {
                   item?.timeSlot.map((time, index) => (
                     <Tag
                       closable
-                      onClose={() => deleteHandler(item?.id)}
+                      onClose={() => deleteHandler(time.id)}
                       closeIcon={
                         <span
                           style={{
@@ -275,12 +275,11 @@ const Schedule = () => {
         <form>
           <div className="hours-info">
             <div className="row form-row hours-cont">
-              {timeSlot &&
-                timeSlot?.map((item, index) => (
-                  <>
+          {/* ──────────────── Existing (already saved) slots ──────────────── */}
+        {editTimeSlot?.map((item) => (
+          <React.Fragment key={item.id}>
                     <div
                       className="col-12 col-md-12 d-flex align-items-center justify-content-between"
-                      key={index + item.id}
                     >
                       <div className="row form-row">
                         <div className="col-12 col-md-6 col-sm-12 my-3">
@@ -302,17 +301,16 @@ const Schedule = () => {
                             </label>
                             <TimePicer
                               handleFunction={handleEditEndTime}
-                              time={item.startTime}
+                              time={item.endTime}
                               id={item.id}
                             />
                           </div>
                         </div>
                       </div>
                       <Button
-                        type="primary"
+                        danger
                         size="medium"
-                        htmlType="submit"
-                        onClick={() => remove(item?.id)}
+                        onClick={() => removeEditSlot(item.id)}
                         icon={<FaWindowClose />}
                         className="d-flex align-items-center justify-content-center"
                         style={{
@@ -324,8 +322,67 @@ const Schedule = () => {
                     </div>
 
                     <hr style={{ color: "var(--headingColor)" }} />
-                  </>
+                  </React.Fragment>
                 ))}
+
+        {/* ────────────────  NEW slots being added in this edit session  ──────────────── */}
+        {newEditSlots?.map((item) => (
+          <React.Fragment key={item.id}>
+            <div
+              className="col-12 col-md-12 d-flex align-items-center justify-content-between"
+            >
+              <div className="row form-row">
+                <div className="col-12 col-md-6 col-sm-12 my-3">
+                  <div className="form-group">
+                    <label style={{ marginRight: "8px" }}>Start Time</label>
+                    <TimePicer
+                      handleFunction={(id, time, timeString) => {
+                        setNewEditSlots((prev) =>
+                          prev.map((s) =>
+                            s.id === id ? { ...s, startTime: timeString } : s
+                          )
+                        );
+                      }}
+                      time={item.startTime || null}
+                      id={item.id}
+                    />
+                  </div>
+                </div>
+                <div className="col-12 col-md-6 col-sm-12 my-3">
+                  <div className="form-group">
+                    <label style={{ marginRight: "8px" }}>End Time</label>
+                    <TimePicer
+                      handleFunction={(id, time, timeString) => {
+                        setNewEditSlots((prev) =>
+                          prev.map((s) =>
+                            s.id === id ? { ...s, endTime: timeString } : s
+                          )
+                        );
+                      }}
+                      time={item.endTime || null}
+                      id={item.id}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                danger
+                size="medium"
+                onClick={() => removeNew(item.id)}
+                icon={<FaWindowClose />}
+                className="d-flex align-items-center justify-content-center"
+                style={{
+                  width: "40px",
+                  height: "30px",
+                  marginTop: "20px",
+                }}
+              />
+            </div>
+            <hr style={{ color: "var(--headingColor)" }} />
+          </React.Fragment>
+        ))}
+
             </div>
           </div>
 
@@ -333,7 +390,7 @@ const Schedule = () => {
             <Button
               type="primary"
               size="medium"
-              htmlType="submit"
+              // htmlType="submit"
               onClick={(e) => addField(e)}
               block
               icon={<FaPlus />}
@@ -354,11 +411,10 @@ const Schedule = () => {
           <div className="hours-info">
             <div className="row form-row hours-cont">
               {addTimeSlot &&
-                addTimeSlot?.map((item, index) => (
-                  <>
+                addTimeSlot?.map((item) => (
+                  <React.Fragment key={item.id}>
                     <div
                       className="col-12 col-md-12 d-flex align-items-center justify-content-between"
-                      key={index + 100}
                     >
                       <div className="row form-row">
                         <div className="col-12 col-md-6 col-sm-12 my-3">
@@ -402,7 +458,7 @@ const Schedule = () => {
                     </div>
 
                     <hr style={{ color: "var(--headingColor)" }} />
-                  </>
+                  </React.Fragment>
                 ))}
             </div>
           </div>

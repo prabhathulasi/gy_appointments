@@ -115,6 +115,7 @@ model Doctor {
   blogs                  Blog[]
   reviews                Review[]
   reports                Report[]
+  subscriptions          Subscription[]
 
   @@map("Doctor")
 }
@@ -357,6 +358,42 @@ enum PrescriptionStatus {
 enum PaymentStatus {
   paid
   unpaid
+}
+
+model Subscription {
+  id            String             @id @default(auto()) @map("_id") @db.ObjectId
+  doctorId      String
+  doctor        Doctor             @relation(fields: [doctorId], references: [id])
+  plan          SubscriptionPlan   @default(free_trial)
+  status        SubscriptionStatus @default(active)
+  trialStartDate DateTime         @default(now())
+  trialEndDate   DateTime
+  subscribedDate DateTime?
+  expiryDate     DateTime?
+  billingCycle   BillingCycle?
+  amount         Int?
+  paymentId      String?
+  orderId        String?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@map("Subscription")
+}
+
+enum SubscriptionPlan {
+  free_trial
+  subscription
+}
+
+enum SubscriptionStatus {
+  active
+  expired
+  cancelled
+}
+
+enum BillingCycle {
+  monthly
+  annual
 }
 
 model Admin {

@@ -10,7 +10,6 @@ const Dashboard = () => {
   const { role } = useAuthCheck();
   return (
     <>
-      {/* for admin */}
       {role === "admin" ? (
         <AdminDashboard />
       ) : (

@@ -49,9 +49,20 @@ router.post("/order/validate", async (req, res) => {
 
 });
 
-router.get("/revenue",async (req, res)=>{
-    const result = await prisma.payment.findMany();
-    return result;
+router.get("/revenue", async (req, res) => {
+    try {
+        const payments = await prisma.payment.findMany({
+            select: { bookingFee: true },
+        });
+        const totalPlatformFee = payments.reduce((sum, p) => sum + (p.bookingFee || 0), 0);
+        res.json({
+            totalRevenue: totalPlatformFee,
+            totalAppointments: payments.length,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error fetching revenue" });
+    }
 });
 
 export const PaymentRouter = router;

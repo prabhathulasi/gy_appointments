@@ -1,6 +1,7 @@
 import {Server} from 'http';
 import app from "./app";
 import config from './config';
+import { Transporter } from './helpers/Transporter';
 
 async function bootstrap(){
     const server:Server = app.listen(config.port, () =>{
@@ -14,6 +15,17 @@ async function bootstrap(){
             })
         }
     };
+
+    // Verify mail transporter but don't exit on failure
+    try {
+        Transporter.verify().then(() => {
+            console.log('Mail transporter verified');
+        }).catch((err) => {
+            console.warn('Mail transporter verification failed:', err && err.message ? err.message : err);
+        });
+    } catch (err) {
+        console.warn('Mail transporter verify error:', err);
+    }
 
     const unexpectedHandler = () =>{
         console.log('Handler Error');

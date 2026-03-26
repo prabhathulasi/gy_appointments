@@ -218,6 +218,11 @@ export const PatientStatus = patientStatusList.map((item) => {
     }
 })
 
+export const PaymentStatusOptions = [
+    { label: 'Paid', value: 'paid' },
+    { label: 'Unpaid', value: 'unpaid' },
+]
+
 
 
 export const DiagnosisOptions = medical_diagnoses.map((item) => {

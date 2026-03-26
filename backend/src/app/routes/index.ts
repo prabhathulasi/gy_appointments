@@ -17,6 +17,7 @@ import { AmbulanceRouter } from '../modules/ambulance/ambulance.route';
 import { EmergencyRouter } from '../modules/emergency/emergency.route';
 import { ReportRouter } from '../modules/reports/report.route';
 import { interestedDoctorRouter } from '../modules/interestedDoctor/interestedDoctor.route';
+import { SubscriptionRouter } from '../modules/subscription/subscription.route';
 
 const router = express.Router();
 
@@ -88,6 +89,10 @@ const moduleRoutes = [
     {
         path: '/doctorquery',
         route: interestedDoctorRouter
+    },
+    {
+        path: '/subscription',
+        route: SubscriptionRouter
     },
 ]
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

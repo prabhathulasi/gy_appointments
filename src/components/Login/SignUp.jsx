@@ -10,7 +10,7 @@ import {
 import { message } from "antd";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const SignUp = ({ handleSignInMobileClick, setSignUp }) => {
+const SignUp = ({ handleSignInMobileClick, setSignUp, userRole, setUserRole }) => {
   const [error, setError] = useState({});
   const [infoError, setInfoError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,14 @@ const SignUp = ({ handleSignInMobileClick, setSignUp }) => {
     password: "",
   };
   const [user, setUser] = useState(formField);
-  const [userType, setUserType] = useState("Patient");
+  const [userType, setUserType] = useState(
+    userRole === "doctor" ? "doctor" : "patient"
+  );
+
+  // Update userType when userRole changes
+  useEffect(() => {
+    setUserType(userRole === "doctor" ? "doctor" : "patient");
+  }, [userRole]);
   const [
     doctorSignUp,
     {
@@ -167,7 +174,28 @@ const SignUp = ({ handleSignInMobileClick, setSignUp }) => {
     <>
       {/* Sign Up Form */}
       <form className="sign-up-form" onSubmit={hanldeOnSubmit}>
+        
+        <div className="role-selector" style={{ marginBottom: "1.5rem" }}>
+          <button
+            type="button"
+            className={`role-btn ${userRole === "patient" ? "active" : ""}`}
+            onClick={() => setUserRole("patient")}
+          >
+            Patient
+          </button>
+          <button
+            type="button"
+            className={`role-btn ${userRole === "doctor" ? "active" : ""}`}
+            onClick={() => setUserRole("doctor")}
+          >
+            Doctor
+          </button>
+        </div>
+        
         <h2 className="title">Sign Up</h2>
+        <p style={{ fontSize: "0.9rem", color: "var(--textLight)", marginTop: "-0.5rem", marginBottom: "1rem" }}>
+          as {userType === "doctor" ? "Doctor" : "Patient"}
+        </p>
         <div className="input-field">
           <i className="fas fa-user"></i>
           <input
@@ -225,16 +253,7 @@ const SignUp = ({ handleSignInMobileClick, setSignUp }) => {
           type="submit"
           className="btn btn-primary btn-block mt-2 btn"
           style={{ boxShadow: "none" }}
-          disabled={
-            passwordValidation.carLength &&
-            passwordValidation.numeric &&
-            passwordValidation.upperLowerCase &&
-            passwordValidation.specailChar &&
-            emailError.emailError &&
-            captchaChecked
-              ? ""
-              : true
-          }
+          disabled={!captchaChecked}
         >
           {loading ? (
             <Spinner
@@ -318,9 +337,9 @@ const SignUp = ({ handleSignInMobileClick, setSignUp }) => {
           </div>
         </div>
 
-        <small className="social-text">Or Sign up with social platforms</small>
+        {/* <small className="social-text">Or Sign up with social platforms</small> */}
 
-        <SocialSignUp />
+        {/* <SocialSignUp /> */}
 
         <p className="account-text">
           Already have an account?{" "}

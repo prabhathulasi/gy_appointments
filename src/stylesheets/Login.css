@@ -1,15 +1,73 @@
+.login-logo-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.login-logo img {
+  height: 50px;
+  width: auto;
+}
+
 .login-form {
   padding: 0;
   margin: 0;
   margin-top: 4rem;
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
   margin-top: 6rem;
   margin-bottom: 2rem;
   background: #fff;
+}
+
+.role-selector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: #f5f5f5;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.role-btn {
+  padding: 0.75rem 2rem;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--textLight);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.role-btn:hover {
+  background: #f0f0f0;
+  transform: scale(1.02);
+}
+
+.role-btn.active {
+  background: var(--primaryColor);
+  color: #fff;
+  border-color: var(--primaryColor);
 }
 
 .login-form .login-container {

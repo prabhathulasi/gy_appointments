@@ -1,5 +1,5 @@
 import "../../../../stylesheets/doctorStylesheets/Dashboard.css";
-import { useGetDoctorAppointmentsQuery } from "../../../../redux/api/appointmentApi";
+import { useGetDoctorAppointmentsQuery, useGetDoctorInvoicesQuery } from "../../../../redux/api/appointmentApi";
 import { useGetDoctorPatientsQuery } from "../../../../redux/api/appointmentApi";
 
 const DoctorDashCard = () => {
@@ -26,6 +26,14 @@ const DoctorDashCard = () => {
   const totalAppoint = Array.isArray(appointmentData)
     ? appointmentData.length
     : 0;
+
+  const { data: invoicesData } = useGetDoctorInvoicesQuery();
+  const totalRevenue = Array.isArray(invoicesData)
+    ? invoicesData.reduce((sum, inv) => sum + Number(inv?.totalAmount || 0), 0)
+    : 0;
+  const formattedRevenue = `₹${totalRevenue.toLocaleString()}`;
+  const avgRevenuePerPatient = totalPatient > 0 ? totalRevenue / totalPatient : 0;
+  const formattedAvgRevenue = `₹${avgRevenuePerPatient.toFixed(2)}`;
 
   const today = new Date();
   const formattedToday = today.toISOString().split("T")[0];
@@ -78,6 +86,20 @@ const DoctorDashCard = () => {
           <h3 className="info-count">{totalAppoint}</h3>
 
           <small className="info-date">{formattedDate}</small>
+        </div>
+      </div>
+      <div className="col-lg-4 col-sm-6 col-12 mb-3">
+        <div className="dash-card">
+          <span className="info-icon third-icon">
+            <i class="fa-solid fa-calendar-check"></i>
+          </span>
+
+          <p className="info-label">Total Revenue</p>
+
+          <h3 className="info-count">{formattedRevenue}</h3>
+
+          <small className="info-date">{formattedDate}</small>
+          <small className="info-date">Avg / Patient: {formattedAvgRevenue}</small>
         </div>
       </div>
     </div>

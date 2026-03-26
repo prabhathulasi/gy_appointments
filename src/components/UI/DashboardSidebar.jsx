@@ -176,6 +176,13 @@ const DashboardSidebar = () => {
             </li>
 
             <li>
+              <NavLink to={"/doctors"} activeClassName="active" end>
+                <FaCalendarPlus className="icon" />
+                <span>Book Appointment</span>
+              </NavLink>
+            </li>
+
+            <li>
               <NavLink to={"/dashboard/reports"} activeClassName="active" end>
                 <i class="fa-solid fa-file-lines icon"></i>
                 <span>Your Reports</span>
@@ -274,6 +281,16 @@ const DashboardSidebar = () => {
                 <span>Invoices</span>
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to={"/dashboard/subscription"}
+                activeClassName="active"
+                end
+              >
+                <FaHeartbeat className="icon" />
+                <span>Subscription</span>
+              </NavLink>
+            </li>
 
             <li>
               <NavLink to={"/dashboard/reviews"} activeClassName="active" end>
@@ -324,7 +341,7 @@ const DashboardSidebar = () => {
                 <FaHome className="icon" /> <span>Dashboard</span>
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 to={"/admin/doctor-requests"}
                 activeClassName="active"
@@ -333,7 +350,7 @@ const DashboardSidebar = () => {
                 <i class="fa-solid fa-stethoscope icon"></i>{" "}
                 <span>Doctor Requests</span>
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink to={"/admin/appointments"} activeClassName="active" end>
                 <FaListUl className="icon" /> <span>Appointments</span>
@@ -441,6 +458,13 @@ const DashboardSidebar = () => {
                 <NavLink to={"/dashboard"} activeClassName="active" end>
                   <FaTable className="icon" />
                   <span>Dashboard</span>
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink to={"/doctors"} activeClassName="active" end>
+                  <FaCalendarPlus className="icon" />
+                  <span>Book Appointment</span>
                 </NavLink>
               </li>
 

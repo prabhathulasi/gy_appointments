@@ -3,8 +3,10 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import { Helmet } from "react-helmet-async";
 
-import Header from "../Shared/Header/Header";
-import Footer from "../Shared/Footer/Footer";
+// import Header from "../Shared/Header/Header";
+// import Footer from "../Shared/Footer/Footer";
+
+import logo from "../../images/logo.png";
 
 import { FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,6 +22,7 @@ const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [signUp, setSignUp] = useState(false);
   const [isSignUpMobile, setIsSignUpMobile] = useState(false);
+  const [userRole, setUserRole] = useState("patient"); // "patient" or "doctor"
 
   const handleSignInClick = () => {
     setIsSignUp(false);
@@ -62,7 +65,13 @@ const Login = () => {
         <link rel="canonical" href="https://Gy Appointments.com/login" />
       </Helmet>
 
-      <Header />
+      {/* <Header /> */}
+
+      <div className="login-logo-bar">
+        <Link to="/" className="login-logo">
+          <img src={logo} alt="GY Appointments" />
+        </Link>
+      </div>
 
       <div className="login-form">
         <div
@@ -84,6 +93,8 @@ const Login = () => {
             <SignUp
               handleSignInMobileClick={handleSignInMobileClick}
               setSignUp={setSignUp}
+              userRole={userRole}
+              setUserRole={setUserRole}
             />
           </div>
 
@@ -132,8 +143,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

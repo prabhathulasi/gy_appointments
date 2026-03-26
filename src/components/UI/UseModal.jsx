@@ -6,6 +6,7 @@ const UseModal = ({ children, title, isModaOpen, handleCancel, handleOk }) => {
       open={isModaOpen}
       onOk={handleOk}
       onCancel={handleCancel}
+      destroyOnClose
     >
       {children}
     </Modal>

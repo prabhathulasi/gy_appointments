@@ -37,7 +37,7 @@ const createPrescription = async (
     console.log("Payload: ", payload);
 
     await prisma.$transaction(async (tx) => {
-      const { status, patientType, ...rest } = others;
+      const { status, patientType, paymentStatus, ...rest } = others;
       const updateAppoint = await tx.appointment.update({
         where: {
           id: isAppointment.id,
@@ -46,6 +46,7 @@ const createPrescription = async (
           isFollowUp: payload.followUpDate ? true : false,
           status: payload.status || undefined,
           patientType: payload.patientType || undefined,
+          paymentStatus: payload.paymentStatus || undefined,
           prescriptionStatus: "issued",
         },
       });
@@ -99,7 +100,7 @@ const updatePrescriptionAndAppointment = async (
   user: any,
   paylaod: any
 ): Promise<{ message: string }> => {
-  const { status, patientType, followUpdate, prescriptionId, ...others } =
+  const { status, patientType, paymentStatus, followUpdate, prescriptionId, ...others } =
     paylaod;
   const { userId } = user;
   const isDoctor = await prisma.doctor.findUnique({
@@ -130,6 +131,7 @@ const updatePrescriptionAndAppointment = async (
         isFollowUp: followUpdate ? true : false,
         status: status,
         patientType: patientType,
+        paymentStatus: paymentStatus || undefined,
       },
     });
 
