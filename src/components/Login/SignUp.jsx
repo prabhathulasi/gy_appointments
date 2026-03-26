@@ -242,7 +242,8 @@ const SignUp = ({ handleSignInMobileClick, setSignUp, userRole, setUserRole }) =
 
         {/* Captcha */}
         <ReCAPTCHA
-          sitekey="6LdQGfQpAAAAAKiIJaBrCcvUCGuwIPLR0N4ENyhs"
+          // sitekey="6LdQGfQpAAAAAKiIJaBrCcvUCGuwIPLR0N4ENyhs"
+          sitekey="6LeVHJksAAAAALX1bhk3tyljXg2bRcGhRpDrViLZ"
           onChange={onCaptchaHandle}
           style={{ margin: "1rem" }}
         />
