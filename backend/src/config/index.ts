@@ -10,6 +10,7 @@ export default {
     port: process.env.PORT,
     default_doctor_pass: process.env.DOCTOR_PASS,
     clientUrl: clientUrl,
+    serverUrl: process.env.SERVER_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${process.env.PORT || 5000}`),
     jwt: {
         secret: process.env.JWT_SCRET,
         JWT_EXPIRES_IN: process.env.JWT_EXPIRED_IN,
